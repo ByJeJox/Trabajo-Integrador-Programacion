@@ -31,7 +31,7 @@ clasificados = []
 for grupo in grupos:
     print(f"\n{grupo[0]}:")  # Muestra el nombre del grupo
     for i, equipo in enumerate(grupo[1], 1):  # Itera sobre los equipos en cada grupo, asignando números
-        print(f"{i}. {equipo}")  # Imprime cada equipo con su número correspondiente
+        print(f"{i}. {equipo}")  # Imprime cada equipo with su número correspondiente
 
     seleccionados = []  # Lista temporal para almacenar los equipos seleccionados
     while len(seleccionados) < 2:  # Asegurar que se seleccionen exactamente 2 equipos por grupo
@@ -63,23 +63,27 @@ print(clasificados)
 
 def generar_arbol(eliminatorias):
     if len(eliminatorias) == 1:
-        return crear_arbol(eliminatorias[0])
-    
+        return crear_arbol(eliminatorias[0])  # Último equipo, el campeón
+
     mitad = len(eliminatorias) // 2
-    nodo = crear_arbol("Torneo")  # Nodo raíz
-    nodo[1] = generar_arbol(eliminatorias[:mitad]) 
-    nodo[2] = generar_arbol(eliminatorias[mitad:])
+    nodo = crear_arbol("Partido")  # Nodo que representará el enfrentamiento
     
+    # Generar los enfrentamientos en la primera mitad y segunda mitad
+    nodo[1] = generar_arbol(eliminatorias[:mitad])  
+    nodo[2] = generar_arbol(eliminatorias[mitad:])  
+
+    # 🔹 Seleccionar el ganador correctamente y evitar duplicaciones
+    ganador = seleccionar_ganador([nodo[1][0], nodo[2][0]])
+    nodo[0] = ganador  # Asignar el ganador al nodo actual
+
     return nodo
 
-def imprimir_arbol(arbol, nivel=0):
-    if arbol:  # Verifica que el nodo exista
-        imprimir_arbol(arbol[2], nivel + 1)  # Imprime primero el hijo derecho
-        if isinstance(arbol[0], list):  # Si el nodo contiene dos equipos, los muestra juntos
-            print('   ' * nivel + f"[{arbol[0][0]} vs {arbol[0][1]}]")
-        else:
-            print('   ' * nivel + f"[{arbol[0]}]")  # Muestra la final u otro nodo de un solo equipo
-        imprimir_arbol(arbol[1], nivel + 1)  # Luego imprime el hijo izquierdo
+def imprimir_arbol_vertical(arbol, nivel=0):
+    """Imprime el árbol en formato gráfico con la raíz arriba y los nodos distribuyéndose hacia abajo."""
+    if arbol:  
+        imprimir_arbol_vertical(arbol[2], nivel + 1)  # Imprime primero el hijo derecho (para alineación visual)
+        print(" " * (4 * nivel) + f"[{arbol[0]}]")  # Espaciado proporcional al nivel
+        imprimir_arbol_vertical(arbol[1], nivel + 1)  # Luego imprime el hijo izquierdo (para estructura visual)
 
 
 # Preguntar al usuario si quiere elegir los ganadores manualmente o automáticamente
@@ -114,8 +118,8 @@ def generar_arbol(eliminatorias):
     nodo[1] = generar_arbol(eliminatorias[:mitad])  # Primera mitad
     nodo[2] = generar_arbol(eliminatorias[mitad:])  # Segunda mitad
 
-    # Aquí el usuario selecciona al equipo que avanza según el modo de juego
-    nodo[0] = seleccionar_ganador([eliminatorias[0], eliminatorias[1]])
+    # Seleccionar el ganador entre los ganadores de las ramas
+    nodo[0] = seleccionar_ganador([nodo[1][0], nodo[2][0]])
     
     return nodo
 
@@ -123,15 +127,23 @@ def mostrar_puestos(arbol):
     print("\n ¡El torneo ha terminado! ")
     print(f" Campeón: {arbol[0]}")  # El nodo raíz es el campeón
 
-    # Obtener subcampeón (el otro equipo en la final)
-    subcampeon = arbol[1][0] if arbol[1][0] != arbol[0] else arbol[2][0]
+    # Subcampeón: el que perdió la final
+    finalistas = [arbol[1][0], arbol[2][0]]
+    subcampeon = finalistas[0] if finalistas[1] == arbol[0] else finalistas[1]
     print(f" Subcampeón: {subcampeon}")
 
-    # Obtener tercer y cuarto puesto (perdedores en semifinales)
-    tercer_puesto = arbol[1][1][0] if arbol[1][1] else arbol[2][1][0]
-    cuarto_puesto = arbol[1][2][0] if arbol[1][2] else arbol[2][2][0]
-    print(f" Tercer lugar: {tercer_puesto}")
-    print(f" Cuarto lugar: {cuarto_puesto}")
+    # Semifinalistas: los que perdieron en semifinales
+    # Accedemos a los nodos de semifinales
+    semifinalistas = []
+    for lado in [arbol[1], arbol[2]]:
+        if lado[1] and lado[2]:
+            semifinalistas.append(lado[1][0] if lado[2][0] == lado[0] else lado[2][0])
+
+    if len(semifinalistas) == 2:
+        print(f" Tercer lugar: {semifinalistas[0]}")
+        print(f" Cuarto lugar: {semifinalistas[1]}")
+    else:
+        print(" No se pudo determinar tercer y cuarto puesto correctamente.")
 
 
 arbol = generar_arbol(clasificados)  # Generamos el árbol de eliminatorias
@@ -139,6 +151,8 @@ arbol = generar_arbol(clasificados)  # Generamos el árbol de eliminatorias
 ver_puestos = input("\nTenemos un ganador, ¿quieres ver los puestos finales? (S/N): ").strip().upper()
 if ver_puestos == "S":
     mostrar_puestos(arbol)
+    print("\nÁrbol del torneo (visual):")
+    imprimir_arbol_vertical(arbol)
 
 
 # Recorridos del Árbol
@@ -176,15 +190,33 @@ while True:
     except ValueError:
         print("⚠️ Entrada inválida. Ingresa un número.")
 
-print("\n🔎 Recorrido del árbol:")
-if opcion == 1:
-    preorden(arbol)
-elif opcion == 2:
-    inorden(arbol)
-else:
-    postorden(arbol)
+while True:
+    print("\n🔎 Recorrido del árbol:")
+    if opcion == 1:
+        preorden(arbol)
+    elif opcion == 2:
+        inorden(arbol)
+    else:
+        postorden(arbol)
+    print("\n✅ Recorrido completado.")
 
-print("\n✅ Recorrido completado.")
+    repetir = input("\n¿Quieres volver a recorrer el árbol? (S/N): ").strip().upper()
+    if repetir != "S":
+        break
+
+    print("\n¿Cómo quieres recorrer el árbol?")
+    print("1. Preorden")
+    print("2. Inorden")
+    print("3. Postorden")
+    while True:
+        try:
+            opcion = int(input("Selecciona una opción (1-3): "))
+            if opcion in [1, 2, 3]:
+                break
+            else:
+                print("⚠️ Opción inválida. Ingresa un número entre 1 y 3.")
+        except ValueError:
+            print("⚠️ Entrada inválida. Ingresa un número.")
 
 def buscar(arbol, pais):
     """Busca un país en el árbol del torneo"""
