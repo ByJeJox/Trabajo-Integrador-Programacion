@@ -141,8 +141,6 @@ if ver_puestos == "S":
     mostrar_puestos(arbol)
 
 
-
-
 # Recorridos del Árbol
 def preorden(arbol):
     if arbol:
@@ -162,17 +160,31 @@ def postorden(arbol):
         postorden(arbol[2])
         print(arbol[0], end=" ")
 
+# Preguntar al usuario cómo quiere recorrer el árbol
+print("\n¿Cómo quieres recorrer el árbol?")
+print("1. Preorden")
+print("2. Inorden")
+print("3. Postorden")
 
+while True:
+    try:
+        opcion = int(input("Selecciona una opción (1-3): "))
+        if opcion in [1, 2, 3]:
+            break
+        else:
+            print("⚠️ Opción inválida. Ingresa un número entre 1 y 3.")
+    except ValueError:
+        print("⚠️ Entrada inválida. Ingresa un número.")
 
-def imprimir_arbol(arbol, nivel=0):
-    """Imprime el árbol en formato visual"""
-    if arbol:
-        imprimir_arbol(arbol[2], nivel + 1)
-        print("   " * nivel + str(arbol[0]))
-        imprimir_arbol(arbol[1], nivel + 1)
+print("\n🔎 Recorrido del árbol:")
+if opcion == 1:
+    preorden(arbol)
+elif opcion == 2:
+    inorden(arbol)
+else:
+    postorden(arbol)
 
-
-
+print("\n✅ Recorrido completado.")
 
 def buscar(arbol, pais):
     """Busca un país en el árbol del torneo"""
@@ -181,30 +193,3 @@ def buscar(arbol, pais):
     else:
         return any(buscar(nodo, pais) for nodo in arbol)
 
-# Simulación del torneo
-print("Ingrese los equipos clasificados en cada fase eliminatoria:")
-equipo_raiz = input("Ingrese el campeón del torneo: ").strip()
-torneo = crear_arbol(equipo_raiz)
-
-# Ejemplo de ingreso manual de semifinalistas
-semifinalista1 = input("Ingrese el primer semifinalista: ").strip()
-semifinalista2 = input("Ingrese el segundo semifinalista: ").strip()
-insertar_izquierda(torneo, semifinalista1)
-insertar_derecha(torneo, semifinalista2)
-
-print("\n--- ÁRBOL DEL TORNEO ---")
-imprimir_arbol(torneo)
-
-print("\n--- Recorrido Preorden ---")
-preorden(torneo)
-
-print("\n--- Recorrido Inorden ---")
-inorden(torneo)
-
-print("\n--- Recorrido Postorden ---")
-postorden(torneo)
-
-# Búsqueda de un equipo
-print("\nIngrese el nombre del país a buscar en el torneo:")
-pais_a_buscar = input().strip()
-print(f"¿Está {pais_a_buscar} en el torneo?: {buscar(torneo, pais_a_buscar)}")
