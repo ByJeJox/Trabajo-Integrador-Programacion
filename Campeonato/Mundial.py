@@ -78,12 +78,23 @@ def generar_arbol(eliminatorias):
 
     return nodo
 
-def imprimir_arbol_vertical(arbol, nivel=0):
-    """Imprime el árbol en formato gráfico con la raíz arriba y los nodos distribuyéndose hacia abajo."""
-    if arbol:  
-        imprimir_arbol_vertical(arbol[2], nivel + 1)  # Imprime primero el hijo derecho (para alineación visual)
-        print(" " * (4 * nivel) + f"[{arbol[0]}]")  # Espaciado proporcional al nivel
-        imprimir_arbol_vertical(arbol[1], nivel + 1)  # Luego imprime el hijo izquierdo (para estructura visual)
+def imprimir_arbol(arbol, nivel=0, lista=None, pos=0):
+    """Genera una representación en listas para imprimir correctamente el árbol en niveles descendentes."""
+    if lista is None:
+        lista = {}
+
+    if arbol:
+        if nivel not in lista:
+            lista[nivel] = []  # Creamos el nivel si aún no existe
+        lista[nivel].append(arbol[0])  # Agregamos el nodo al nivel correspondiente
+
+        imprimir_arbol(arbol[1], nivel + 1, lista, pos * 2)
+        imprimir_arbol(arbol[2], nivel + 1, lista, pos * 2 + 1)
+
+    if nivel == 0:
+        for k in sorted(lista.keys()):
+            print(" ".join([f"[{e}]" for e in lista[k]]))  # Imprime cada nivel correctamente alineado
+
 
 
 # Preguntar al usuario si quiere elegir los ganadores manualmente o automáticamente
@@ -152,7 +163,7 @@ ver_puestos = input("\nTenemos un ganador, ¿quieres ver los puestos finales? (S
 if ver_puestos == "S":
     mostrar_puestos(arbol)
     print("\nÁrbol del torneo (visual):")
-    imprimir_arbol_vertical(arbol)
+    imprimir_arbol(arbol)
 
 
 # Recorridos del Árbol
