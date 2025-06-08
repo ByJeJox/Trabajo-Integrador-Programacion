@@ -98,7 +98,12 @@ def imprimir_arbol(arbol, nivel=0, lista=None, pos=0):
 
 
 # Preguntar al usuario si quiere elegir los ganadores manualmente o automáticamente
-modo_juego = input("\n¿Quieres asignar los ganadores manualmente (M) o automáticamente (A)? ").strip().upper()
+while True:
+    modo_juego = input("\n¿Quieres asignar los ganadores manualmente (M) o automáticamente (A)? ").strip().upper()
+    if modo_juego in ["M", "A"]:
+        break
+    else:
+        print("Opción inválida. Ingresa 'M' para manual o 'A' para automático.")
 
 def seleccionar_ganador(equipos):
     if modo_juego == "A":  # Modo automático
