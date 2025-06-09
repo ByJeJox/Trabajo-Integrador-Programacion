@@ -12,7 +12,7 @@ Simulador de Torneo de la Copa del Mundo
 https://drive.google.com/drive/folders/1NEdYYE72_Wtpm_rTWfd6ufMN4Q5KEDiD?usp=sharing
 
 🎥 Link del video explicativo en YouTube:
-
+https://youtu.be/Bhjdy4pqMzg
 
 📌 Descripción
 Este proyecto es un simulador de torneo basado en un árbol binario para representar la progresión de los equipos en un campeonato de fútbol.
