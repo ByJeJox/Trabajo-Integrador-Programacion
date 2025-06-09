@@ -78,22 +78,47 @@ def generar_arbol(eliminatorias):
 
     return nodo
 
-def imprimir_arbol(arbol, nivel=0, lista=None, pos=0):
+def imprimir_arbol_por_niveles(arbol, nivel=0, lista=None, pos=0):
     """Genera una representación en listas para imprimir correctamente el árbol en niveles descendentes."""
     if lista is None:
         lista = {}
 
     if arbol:
         if nivel not in lista:
-            lista[nivel] = []  # Creamos el nivel si aún no existe
+            lista[nivel] = []  # Creamos el nivel si todavia no existe
         lista[nivel].append(arbol[0])  # Agregamos el nodo al nivel correspondiente
 
-        imprimir_arbol(arbol[1], nivel + 1, lista, pos * 2)
-        imprimir_arbol(arbol[2], nivel + 1, lista, pos * 2 + 1)
+        imprimir_arbol_por_niveles(arbol[1], nivel + 1, lista, pos * 2)
+        imprimir_arbol_por_niveles(arbol[2], nivel + 1, lista, pos * 2 + 1)
 
     if nivel == 0:
         for k in sorted(lista.keys()):
             print(" ".join([f"[{e}]" for e in lista[k]]))  # Imprime cada nivel correctamente alineado
+
+def imprimir_arbol_horizontal(arbol, indent="", ultimo=True):
+    """
+    Imprime el árbol de forma horizontal estilo bracket de torneo,
+    con conexiones visuales entre nodos.
+    """
+    if not arbol or arbol == []:
+        return
+    
+    print(indent, end='')
+    if ultimo:
+        print("└── ", end='')
+        indent += "    "
+    else:
+        print("├── ", end='')
+        indent += "│   "
+    
+    print(arbol[0])  # Imprime el nodo actual
+    
+    # Primero hijo izquierdo, si existe
+    if arbol[1]:
+        imprimir_arbol_horizontal(arbol[1], indent, arbol[2] == [])
+    # Luego hijo derecho, siempre último si existe
+    if arbol[2]:
+        imprimir_arbol_horizontal(arbol[2], indent, True)
 
 
 
@@ -164,11 +189,29 @@ def mostrar_puestos(arbol):
 
 arbol = generar_arbol(clasificados)  # Generamos el árbol de eliminatorias
 
-ver_puestos = input("\nTenemos un ganador, ¿quieres ver los puestos finales? (S/N): ").strip().upper()
+# Preguntar si quiere ver los puestos finales, validando entrada S/N
+while True:
+    ver_puestos = input("\nTenemos un ganador, ¿quieres ver los puestos finales? (S/N): ").strip().upper()
+    if ver_puestos in ["S", "N"]:
+        break
+    else:
+        print("Opción inválida. Ingresa 'S' para sí o 'N' para no.")
+
 if ver_puestos == "S":
     mostrar_puestos(arbol)
-    print("\nÁrbol del torneo (visual):")
-    imprimir_arbol(arbol)
+
+# Preguntar si quiere imprimir el árbol, validando entrada S/N
+while True:
+    ver_arbol = input("\n¿Quieres imprimir el árbol por niveles y de forma horizontal? (S/N): ").strip().upper()
+    if ver_arbol in ["S", "N"]:
+        break
+    else:
+        print("Opción inválida. Ingresa 'S' para sí o 'N' para no.")
+if ver_arbol == "S":
+    print("\nÁrbol horizontal:")
+    imprimir_arbol_horizontal(arbol)
+    print("\nÁrbol por niveles:")
+    imprimir_arbol_por_niveles(arbol)
 
 
 # Recorridos del Árbol
@@ -195,49 +238,41 @@ print("\n¿Cómo quieres recorrer el árbol?")
 print("1. Preorden")
 print("2. Inorden")
 print("3. Postorden")
+print("4. Salir")
 
 while True:
     try:
-        opcion = int(input("Selecciona una opción (1-3): "))
-        if opcion in [1, 2, 3]:
+        opcion = int(input("Selecciona una opción (1-4): "))
+        if opcion in [1, 2, 3, 4]:
             break
         else:
-            print("⚠️ Opción inválida. Ingresa un número entre 1 y 3.")
+            print("Opción inválida. Ingresa un número entre 1 y 4.")
     except ValueError:
-        print("⚠️ Entrada inválida. Ingresa un número.")
+        print("Entrada inválida. Ingresa un número.")
 
-while True:
+while opcion != 4:
     print("\n🔎 Recorrido del árbol:")
     if opcion == 1:
         preorden(arbol)
     elif opcion == 2:
         inorden(arbol)
-    else:
+    elif opcion == 3:
         postorden(arbol)
-    print("\n✅ Recorrido completado.")
-
-    repetir = input("\n¿Quieres volver a recorrer el árbol? (S/N): ").strip().upper()
-    if repetir != "S":
-        break
+    print("\nRecorrido completado.")
 
     print("\n¿Cómo quieres recorrer el árbol?")
     print("1. Preorden")
     print("2. Inorden")
     print("3. Postorden")
+    print("4. Salir")
     while True:
         try:
-            opcion = int(input("Selecciona una opción (1-3): "))
-            if opcion in [1, 2, 3]:
+            opcion = int(input("Selecciona una opción (1-4): "))
+            if opcion in [1, 2, 3, 4]:
                 break
             else:
-                print("⚠️ Opción inválida. Ingresa un número entre 1 y 3.")
+                print("Opción inválida. Ingresa un número entre 1 y 4.")
         except ValueError:
-            print("⚠️ Entrada inválida. Ingresa un número.")
+            print("Entrada inválida. Ingresa un número.")
 
-def buscar(arbol, pais):
-    """Busca un país en el árbol del torneo"""
-    if isinstance(arbol, str):
-        return arbol == pais
-    else:
-        return any(buscar(nodo, pais) for nodo in arbol)
-
+print("Gracias por jugar al torneo de la Copa del Mundo") 
