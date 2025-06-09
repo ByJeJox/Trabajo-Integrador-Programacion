@@ -1,11 +1,18 @@
 # Trabajo-Integrador-Programacion
 Simulador de Torneo de la Copa del Mundo
+
 👥 Integrantes
 -Bruno Mele
 -Agustín Martínez
 
 🏫 Comisión
 -Comisión 17-
+
+📂 Link de Google Drive con el PDF del proyecto:
+https://drive.google.com/drive/folders/1NEdYYE72_Wtpm_rTWfd6ufMN4Q5KEDiD?usp=sharing
+
+🎥 Link del video explicativo en YouTube:
+
 
 📌 Descripción
 Este proyecto es un simulador de torneo basado en un árbol binario para representar la progresión de los equipos en un campeonato de fútbol.
@@ -87,4 +94,6 @@ Ofrecer recorridos y análisis del árbol para profundizar en conceptos de infor
 -Mejora en la union de equipos luego de la fase de grupos
 -Interfaz gráfica para la selección de equipos.
 
-🎥 Link del video en YouTube:
+
+
+
