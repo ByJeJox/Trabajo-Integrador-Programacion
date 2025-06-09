@@ -1,11 +1,11 @@
 import random
 
-# Implementación del torneo como arbol binario usando listas
+# Implementación del torneo como arbol usando listas
 def crear_arbol(valor):
     return [valor, [], []]
 
 # Función para insertar un nuevo nodo en el subárbol izquierdo
-# Solo lo hace si el espacio está vacío, sin sobrescribir nodos existentes
+# Solo lo hace si el espacio está vacio, sin sobrescribir nodos existentes
 def insertar_izquierda(nodo, nuevo_valor):
     if not nodo[1]:  # Verifica si el nodo no tiene hijo izquierdo
         nodo[1] = [nuevo_valor, [], []] # Si el hijo izquierdo está vacío, inserta el nuevo valor como un nuevo nodo
@@ -22,7 +22,7 @@ grupos = [
     ["Grupo D", ["México", "EEUU", "Colombia", "Perú"]],
     ["Grupo E", ["Japón", "Corea del Sur", "Australia", "Arabia Saudita"]],
     ["Grupo F", ["Senegal", "Nigeria", "Argelia", "Marruecos"]],
-    ["Grupo G", ["Costa Rica", "Panamá", "Honduras", "El Salvador"]],
+    ["Grupo G", ["Costa Rica", "Panamá", "Honduras", "El Salvador"]],    
     ["Grupo H", ["Rusia", "Polonia", "Suecia", "Dinamarca"]]
 ]
 
@@ -67,15 +67,12 @@ def generar_arbol(eliminatorias):
 
     mitad = len(eliminatorias) // 2
     nodo = crear_arbol("Partido")  # Nodo que representará el enfrentamiento
+    nodo[1] = generar_arbol(eliminatorias[:mitad])  # Primera mitad
+    nodo[2] = generar_arbol(eliminatorias[mitad:])  # Segunda mitad
+
+    # Seleccionar el ganador entre los ganadores de las ramas
+    nodo[0] = seleccionar_ganador([nodo[1][0], nodo[2][0]])
     
-    # Generar los enfrentamientos en la primera mitad y segunda mitad
-    nodo[1] = generar_arbol(eliminatorias[:mitad])  
-    nodo[2] = generar_arbol(eliminatorias[mitad:])  
-
-    # 🔹 Seleccionar el ganador correctamente y evitar duplicaciones
-    ganador = seleccionar_ganador([nodo[1][0], nodo[2][0]])
-    nodo[0] = ganador  # Asignar el ganador al nodo actual
-
     return nodo
 
 def imprimir_arbol_por_niveles(arbol, nivel=0, lista=None, pos=0):
@@ -150,19 +147,6 @@ def seleccionar_ganador(equipos):
             except ValueError:
                 print("Entrada inválida. Ingresa un número.")
 
-def generar_arbol(eliminatorias):
-    if len(eliminatorias) == 1:
-        return crear_arbol(eliminatorias[0])  # Último equipo, el campeón
-
-    mitad = len(eliminatorias) // 2
-    nodo = crear_arbol("Partido")  # Nodo que representará el enfrentamiento
-    nodo[1] = generar_arbol(eliminatorias[:mitad])  # Primera mitad
-    nodo[2] = generar_arbol(eliminatorias[mitad:])  # Segunda mitad
-
-    # Seleccionar el ganador entre los ganadores de las ramas
-    nodo[0] = seleccionar_ganador([nodo[1][0], nodo[2][0]])
-    
-    return nodo
 
 def mostrar_puestos(arbol):
     print("\n ¡El torneo ha terminado! ")
