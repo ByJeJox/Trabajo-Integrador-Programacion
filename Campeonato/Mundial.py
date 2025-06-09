@@ -259,4 +259,35 @@ while opcion != 4:
         except ValueError:
             print("Entrada inválida. Ingresa un número.")
 
+
+# Propiedades de los árboles
+
+def profundidad(arbol):
+    """
+    Calcula la máxima profundidad del árbol (cantidad de nodos desde la raíz hasta la hoja más profunda).
+    """
+    if not arbol or arbol == []:
+        return 0
+    return 1 + max(profundidad(arbol[1]), profundidad(arbol[2]))
+
+def altura(arbol):
+        """
+        Devuelve la altura del árbol (cantidad de niveles desde la raíz hasta la hoja más lejana).
+        Es igual a la profundidad máxima menos 1.
+        """
+        return max(0, profundidad(arbol))
+
+def peso_maximo(arbol):
+    """
+    Calcula el peso del árbol, es decir, la cantidad total de nodos en el árbol.
+    """
+    if not arbol or arbol == []:
+        return 0
+    return 1 + peso_maximo(arbol[1]) + peso_maximo(arbol[2])
+
+print("\n---Propiedades del árbol---")
+print(f"Profundidad del árbol: {profundidad(arbol)}")
+print(f"Altura del árbol: {altura(arbol)}")
+print(f"Peso máximo del árbol: {peso_maximo(arbol)}")
+
 print("Gracias por jugar al torneo de la Copa del Mundo") 
