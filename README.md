@@ -1,15 +1,15 @@
 # Trabajo-Integrador-Programacion
 Simulador de Torneo de la Copa del Mundo
 👥 Integrantes
-Bruno Mele
-
-Agustín Martínez
+-Bruno Mele
+-Agustín Martínez
 
 🏫 Comisión
-Comisión 17
+-Comisión 17-
 
 📌 Descripción
-Este proyecto es un simulador de torneo basado en un árbol binario para representar la progresión de los equipos en un campeonato de fútbol. El sistema permite:
+Este proyecto es un simulador de torneo basado en un árbol binario para representar la progresión de los equipos en un campeonato de fútbol.
+El sistema permite:
 
 Fase de grupos con selección manual de equipos clasificados.
 
@@ -65,8 +65,8 @@ Opciones de recorrido:
 El usuario puede elegir entre Preorden, Inorden o Postorden para recorrer el árbol.
 
 📈 Posibles mejoras futuras
-Guardado de resultados en un archivo externo.
 
-Simulación de goles y estadísticas por partido.
+-Mejora en la union de equipos luego de la fase de grupos
+-Interfaz gráfica para la selección de equipos.
 
-Interfaz gráfica para la selección de equipos.
+🎥 Link del video en YouTube:
