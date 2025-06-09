@@ -66,6 +66,22 @@ Opciones de recorrido:
 
 El usuario puede elegir entre Preorden, Inorden o Postorden para recorrer el árbol.
 
+Se muestra informacion sobre algunas propiedades del árbol.
+
+
+🎯 Objetivos del proyecto
+
+Simular la dinámica de un torneo de fútbol utilizando estructuras de datos (árbol binario).
+
+Permitir la selección y avance de equipos de manera interactiva o automática.
+
+Visualizar la progresión y resultados del torneo de forma clara y estructurada.
+
+Facilitar el aprendizaje sobre árboles binarios aplicados a un caso práctico.
+
+Ofrecer recorridos y análisis del árbol para profundizar en conceptos de informática.
+
+
 📈 Posibles mejoras futuras
 
 -Mejora en la union de equipos luego de la fase de grupos
