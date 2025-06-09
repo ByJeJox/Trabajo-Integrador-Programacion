@@ -1,18 +1,20 @@
-# Simulación de Torneo de la Copa del Mundo usando árboles con listas anidadas
 import random
-# Implementación del torneo como árbol binario usando listas
+
+# Implementación del torneo como arbol binario usando listas
 def crear_arbol(valor):
     return [valor, [], []]
 
+# Función para insertar un nuevo nodo en el subárbol izquierdo
+# Solo lo hace si el espacio está vacío, sin sobrescribir nodos existentes
 def insertar_izquierda(nodo, nuevo_valor):
-    if not nodo[1]:  # Solo inserta si no hay hijo izquierdo
-        nodo[1] = [nuevo_valor, [], []]
+    if not nodo[1]:  # Verifica si el nodo no tiene hijo izquierdo
+        nodo[1] = [nuevo_valor, [], []] # Si el hijo izquierdo está vacío, inserta el nuevo valor como un nuevo nodo
 
 def insertar_derecha(nodo, nuevo_valor):
-    if not nodo[2]:  # Solo inserta si no hay hijo derecho
+    if not nodo[2]:  
         nodo[2] = [nuevo_valor, [], []]
 
-# Definir los grupos del torneo con equipos en una lista anidada
+# Definimos los grupos del torneo con equipos en una lista anidada
 grupos = [
     ["Grupo A", ["Argentina", "Brasil", "Uruguay", "Chile"]],
     ["Grupo B", ["Francia", "España", "Alemania", "Italia"]],
@@ -24,33 +26,33 @@ grupos = [
     ["Grupo H", ["Rusia", "Polonia", "Suecia", "Dinamarca"]]
 ]
 
-# Crear una lista vacía para almacenar los equipos que avanzan a la fase eliminatoria
+# Creamos una lista vacia para almacenar los equipos que avanzan a la fase eliminatoria
 clasificados = []
 
 # Recorrer cada grupo en la lista 'grupos'
 for grupo in grupos:
     print(f"\n{grupo[0]}:")  # Muestra el nombre del grupo
-    for i, equipo in enumerate(grupo[1], 1):  # Itera sobre los equipos en cada grupo, asignando números
-        print(f"{i}. {equipo}")  # Imprime cada equipo with su número correspondiente
+    for i, equipo in enumerate(grupo[1], 1):  # Itera sobre los equipos en cada grupo, asignando numeros
+        print(f"{i}. {equipo}")  # Imprime el número del equipo seguido de su nombre
 
     seleccionados = []  # Lista temporal para almacenar los equipos seleccionados
-    while len(seleccionados) < 2:  # Asegurar que se seleccionen exactamente 2 equipos por grupo
+    while len(seleccionados) < 2:  # Se seleccionan 2 equipos por grupo
         try:
             seleccion = int(input(f"Selecciona un equipo que avanza en {grupo[0]} (1-4): ")) - 1
             
-            # Verifica si el número ingresado está dentro del rango permitido
+            # Verifica si el numero ingresado esta dentro del rango permitido
             if seleccion not in range(4):
-                print(" Opción inválida. Ingresa un número entre 1 y 4.")  # Mensaje de error si la selección no es válida
+                print(" Opción inválida. Ingresa un número entre 1 y 4.")  # Mensaje de error
                 continue  # Repite la solicitud si hubo un error
             
-            # Evita la selección repetida del mismo equipo
+            # Evita la seleccion repetida del mismo equipo
             if grupo[1][seleccion] in seleccionados:
                 print(" Ya seleccionaste este equipo. Elige otro.")  # Mensaje de advertencia
                 continue  # Repite la solicitud si hubo un error
             
             seleccionados.append(grupo[1][seleccion])  # Agrega el equipo a la lista de seleccionados
         
-        except ValueError:  # Maneja errores si el usuario ingresa algo que no es un número
+        except ValueError:  # Maneja errores si el usuario ingresa algo que no es un numero
             print(" Entrada inválida. Ingresa un número.")
 
     clasificados.extend(seleccionados)  # Agrega los equipos seleccionados a la lista principal de clasificados
@@ -58,8 +60,6 @@ for grupo in grupos:
 # Muestra los equipos clasificados después de que el usuario ha seleccionado todos los grupos
 print("\nEquipos clasificados a la fase eliminatoria:")
 print(clasificados)
-
-
 
 def generar_arbol(eliminatorias):
     if len(eliminatorias) == 1:
