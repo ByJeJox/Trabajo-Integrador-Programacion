@@ -15,11 +15,13 @@ Fase de grupos con selección manual de equipos clasificados.
 
 Eliminatorias con opción de modo manual (selección de ganadores) o modo automático (asignación aleatoria).
 
+Consulta de posiciones finales: Campeón, subcampeón, tercer y cuarto lugar.
+
 Visualización del torneo con impresión estructurada del árbol de competición.
 
 Recorridos del árbol en Preorden, Inorden y Postorden.
 
-Consulta de posiciones finales: Campeón, subcampeón, tercer y cuarto lugar.
+Informacion sobre la altura, profundidad y peso del arbol.
 
 ⚙️ Requisitos
 Python 3.x (recomendado).
