@@ -75,8 +75,8 @@ def generar_arbol(eliminatorias):
     
     return nodo
 
+# Genera una representación en listas para imprimir correctamente el árbol en niveles descendentes
 def imprimir_arbol_por_niveles(arbol, nivel=0, lista=None, pos=0):
-    """Genera una representación en listas para imprimir correctamente el árbol en niveles descendentes."""
     if lista is None:
         lista = {}
 
@@ -92,11 +92,8 @@ def imprimir_arbol_por_niveles(arbol, nivel=0, lista=None, pos=0):
         for k in sorted(lista.keys()):
             print(" ".join([f"[{e}]" for e in lista[k]]))  # Imprime cada nivel correctamente alineado
 
+# Imprime el árbol de forma horizontal estilo bracket de torneo,con conexiones visuales entre nodos
 def imprimir_arbol_horizontal(arbol, indent="", ultimo=True):
-    """
-    Imprime el árbol de forma horizontal estilo bracket de torneo,
-    con conexiones visuales entre nodos.
-    """
     if not arbol or arbol == []:
         return
     
@@ -175,7 +172,7 @@ arbol = generar_arbol(clasificados)  # Generamos el árbol de eliminatorias
 
 # Preguntar si quiere ver los puestos finales, validando entrada S/N
 while True:
-    ver_puestos = input("\nTenemos un ganador, ¿quieres ver los puestos finales? (S/N): ").strip().upper()
+    ver_puestos = input("\nTenemos un ganador, ¿quieres ver los puestos finales? Ingresa 'S' para sí o 'N' para no:").strip().upper()
     if ver_puestos in ["S", "N"]:
         break
     else:
@@ -186,11 +183,11 @@ if ver_puestos == "S":
 
 # Preguntar si quiere imprimir el árbol, validando entrada S/N
 while True:
-    ver_arbol = input("\n¿Quieres imprimir el árbol por niveles y de forma horizontal? (S/N): ").strip().upper()
+    ver_arbol = input("\n¿Quieres imprimir el árbol por niveles y de forma horizontal? Ingresa 'S' para sí o 'N' para no:").strip().upper()
     if ver_arbol in ["S", "N"]:
         break
     else:
-        print("Opción inválida. Ingresa 'S' para sí o 'N' para no.")
+        print("Opción inválida. Ingresa 'S' para sí o 'N' para no:")
 if ver_arbol == "S":
     print("\nÁrbol horizontal:")
     imprimir_arbol_horizontal(arbol)
@@ -218,7 +215,7 @@ def postorden(arbol):
         print(arbol[0], end=" ")
 
 # Preguntar al usuario cómo quiere recorrer el árbol
-print("\n¿Cómo quieres recorrer el árbol?")
+print("\n¿Cómo queres recorrer el árbol?")
 print("1. Preorden")
 print("2. Inorden")
 print("3. Postorden")
@@ -262,32 +259,25 @@ while opcion != 4:
 
 # Propiedades de los árboles
 
+# Calcula la máxima profundidad del árbol (cantidad de nodos desde la raíz hasta la hoja más profunda)
 def profundidad(arbol):
-    """
-    Calcula la máxima profundidad del árbol (cantidad de nodos desde la raíz hasta la hoja más profunda).
-    """
     if not arbol or arbol == []:
         return 0
     return 1 + max(profundidad(arbol[1]), profundidad(arbol[2]))
 
+# Devuelve la altura del árbol (cantidad de niveles desde la raíz hasta la hoja más lejana). Es igual a la profundidad maxima
 def altura(arbol):
-        """
-        Devuelve la altura del árbol (cantidad de niveles desde la raíz hasta la hoja más lejana).
-        Es igual a la profundidad máxima menos 1.
-        """
         return max(0, profundidad(arbol))
 
-def peso_maximo(arbol):
-    """
-    Calcula el peso del árbol, es decir, la cantidad total de nodos en el árbol.
-    """
+# Calcula el peso del árbol, la cantidad total de nodos en el árbol.
+def peso(arbol):
     if not arbol or arbol == []:
         return 0
-    return 1 + peso_maximo(arbol[1]) + peso_maximo(arbol[2])
+    return 1 + peso(arbol[1]) + peso(arbol[2])
 
 print("\n---Propiedades del árbol---")
 print(f"Profundidad del árbol: {profundidad(arbol)}")
 print(f"Altura del árbol: {altura(arbol)}")
-print(f"Peso máximo del árbol: {peso_maximo(arbol)}")
+print(f"El peso del arbol es : {peso(arbol)}")
 
 print("Gracias por jugar al torneo de la Copa del Mundo") 
